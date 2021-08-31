@@ -22,6 +22,7 @@ namespace WpfApp5
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int Count { get; set; } = 0;
         public string ImagePath { get; set; }
         public string Minute { get; set; }
         public string Description { get; set; }
@@ -34,26 +35,52 @@ namespace WpfApp5
             InitializeComponent();
             DataContext = this;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public int Index { get; set; } = 0;
+        public void GetMovie()
         {
-            var name = movieTextBox.Text;
+              var name = movieTextBox.Text;
             HttpResponseMessage response = new HttpResponseMessage();
-            response = httpClient.GetAsync($@"http://www.omdbapi.com/?apikey=ddee1dae&s={name}&plot=full").Result;
+            response = httpClient.GetAsync($@"http://www.omdbapi.com/?apikey=83a2a211&s={name}&plot=full").Result;
 
             var str = response.Content.ReadAsStringAsync().Result;
             Data = JsonConvert.DeserializeObject(str);
 
-            response = httpClient.GetAsync($@"http://www.omdbapi.com/?apikey=ddee1dae&t={Data.Search[0].Title}&plot=full").Result;
+            response = httpClient.GetAsync($@"http://www.omdbapi.com/?apikey=83a2a211&t={Data.Search[Index].Title}&plot=full").Result;
 
             str = response.Content.ReadAsStringAsync().Result;
             SingleData = JsonConvert.DeserializeObject(str);
 
             movieImage.Source = SingleData.Poster;
+            movieImage2.Source = SingleData.Poster;
             Minute = SingleData.Runtime;
             Description = SingleData.Genre;
 
             movieLabel.Content = Minute + " " + Description;
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            GetMovie();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if(Index == 0)
+            {
+                preBtn.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+              Index--;
+              GetMovie();
+
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            preBtn.Visibility = Visibility.Visible;
+            Index++;
+            GetMovie();
         }
     }
 }
