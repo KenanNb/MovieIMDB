@@ -98,5 +98,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\HalfStar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\Star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\ZeroStar.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
